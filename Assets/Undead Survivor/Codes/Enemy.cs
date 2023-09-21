@@ -7,19 +7,23 @@ public class Enemy : MonoBehaviour
 
     public Rigidbody2D target;
     public float speed;
+    public int hp;
+    public int hpMax;
+    public RuntimeAnimatorController[] aniCons;
 
     private Rigidbody2D rigid;
     private SpriteRenderer sprite;
+    private Animator animator;
 
-    private bool isLive = true;
+    private bool isLive;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
 
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
-        speed = 2;
+        animator = GetComponent<Animator>();
 
     }
 
@@ -58,6 +62,22 @@ public class Enemy : MonoBehaviour
     {
 
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        isLive = true;
+
+    }
+
+    public void Init(StageLevelData data)
+    {
+
+        hpMax = data.hp;
+        hp = hpMax;
+        speed = data.speed;
+        animator.runtimeAnimatorController = aniCons[data.prefabID];
+
+        if(hpMax > 2)
+        {
+            sprite.transform.localScale = new Vector2(1.5f, 1.5f);
+        }
 
     }
 

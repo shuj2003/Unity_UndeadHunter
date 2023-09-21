@@ -7,40 +7,54 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public PoolManager pool;
     public Player player;
+    public StageLevelData[] levelDatas;
+
+    float gameTime;
+    float levelUpTime = 10f;
+    float maxGameTime;
 
     float timer;
+    int level;
 
     private void Awake()
     {
         instance = this;
+        maxGameTime = levelDatas.Length * levelUpTime - 1f;
     }
 
     private void Update()
     {
 
-        timer += Time.deltaTime;
+        gameTime += Time.deltaTime;
 
-        if(timer > 1.0)
+        if (gameTime > maxGameTime)
         {
-            timer = 0;
-            createEmpty();
+            gameTime = maxGameTime;
         }
 
-            
+        level = Mathf.FloorToInt(gameTime / levelUpTime);
+
+        timer += Time.deltaTime;
+
+        if (timer > levelDatas[level].createTime)
+        {
+            timer = 0;
+            createEmpty(levelDatas[level]);
+        }
 
     }
 
-    void createEmpty()
+    void createEmpty(StageLevelData data)
     {
+        GameObject enemy = pool.Get(0);
+        enemy.GetComponent<Enemy>().Init(data);
+        SpriteRenderer sp = enemy.GetComponent<SpriteRenderer>();
+        Vector2 pos = Vector2.zero;
 
         Vector2 LB = Camera.main.ViewportToWorldPoint(Vector2.zero);
         Vector2 RU = Camera.main.ViewportToWorldPoint(Vector2.one);
         float width = RU.x - LB.x;
         float height = RU.y - LB.y;
-
-        GameObject enemy = pool.Get(Random.Range(0, 2));
-        SpriteRenderer sp = enemy.GetComponent<SpriteRenderer>();
-        Vector2 pos = Vector2.zero;
 
         Vector2 pLB = new Vector2(
             player.transform.position.x - width / 2.0f - sp.size.x
@@ -80,5 +94,16 @@ public class GameManager : MonoBehaviour
         enemy.transform.position = pos;
 
     }
+
+}
+
+[System.Serializable]
+public class StageLevelData
+{
+
+    public int prefabID;
+    public float createTime;
+    public int hp;
+    public float speed;
 
 }

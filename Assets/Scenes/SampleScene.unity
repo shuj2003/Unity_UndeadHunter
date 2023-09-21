@@ -154,6 +154,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pool: {fileID: 628202656}
   player: {fileID: 616656422}
+  levelDatas:
+  - prefabID: 0
+    createTime: 0.8
+    hp: 1
+    speed: 1
+  - prefabID: 1
+    createTime: 0.4
+    hp: 2
+    speed: 1.5
+  - prefabID: 1
+    createTime: 0.4
+    hp: 3
+    speed: 2
 --- !u!4 &17985484
 Transform:
   m_ObjectHideFlags: 0
@@ -13731,7 +13744,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 1640075609257181860, guid: 4c1a950bbbb1f2b478d3ef8a7bbde9a2, type: 3}
-  - {fileID: 2251745923746737698, guid: f5686f60e93f43b419f1ab36a223f3bd, type: 3}
 --- !u!4 &628202657
 Transform:
   m_ObjectHideFlags: 0
@@ -18370,8 +18382,8 @@ SceneRoots:
   - {fileID: 578930581}
   - {fileID: 519420032}
   - {fileID: 17985484}
+  - {fileID: 628202657}
   - {fileID: 616656420}
   - {fileID: 377867286}
   - {fileID: 114877612}
   - {fileID: 976847894}
-  - {fileID: 628202657}
