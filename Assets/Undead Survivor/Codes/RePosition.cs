@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class RePosition : MonoBehaviour
 {
+    Collider2D coll;
+
+    private void Awake()
+    {
+        coll = GetComponent<Collider2D>();
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Area"))
@@ -32,7 +39,17 @@ public class RePosition : MonoBehaviour
                 break;
 
             case "Enemy":
-
+                if (coll.enabled)
+                {
+                    if (diffx > diffy)
+                    {
+                        transform.Translate(Vector3.right * dirX * (20 + 3.0f) + new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0));
+                    }
+                    else if (diffx < diffy)
+                    {
+                        transform.Translate(Vector3.up * dirY * (20 + 3.0f) + new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0));
+                    }
+                }
                 break;
         }
 

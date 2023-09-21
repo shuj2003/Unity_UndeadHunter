@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//メモ：isTrigger付けたら、当たり判定除外されます。
+//OnTriggerExit2D等関数の活性化に関しては関係ないです、別物です。
+
 public class Player : MonoBehaviour
 {
 
