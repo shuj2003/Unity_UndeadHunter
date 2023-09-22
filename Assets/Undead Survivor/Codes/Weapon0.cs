@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon0 : MonoBehaviour
 {
-    public BulletData data;
+    public BulletData[] bulletDatas;
 
     private int _level = 0;
     public int level
@@ -19,32 +19,39 @@ public class Weapon0 : MonoBehaviour
             return _level;
         }
     }
-    private int levelMax = 3;
+    private int levelMax;
     private List<GameObject> bullets;
 
     float speed;
     int count;
     int power;
 
+    float gameTime;
+    float levelUpTime = 5f;
+    float maxGameTime;
+
     // Start is called before the first frame update
     void Awake()
     {
         bullets = new List<GameObject>();
-        level = 1;
-
-        data.count = 5;
-        data.power = 1;
-        data.speed = 90;
+        level = 0;
+        levelMax = bulletDatas.Length;
+        Init(bulletDatas[level]);
+        maxGameTime = bulletDatas.Length * levelUpTime - 1f;
     }
 
     // Update is called once per frame
     void Update() {
 
-        if(data.count != count || data.speed != speed || data.power != power)
+        gameTime += Time.deltaTime;
+
+        if (gameTime > maxGameTime)
         {
-            Init(data);
-            transform.localRotation = Quaternion.identity;
+            gameTime = maxGameTime;
         }
+
+        int levelNext = Mathf.FloorToInt(gameTime / levelUpTime);
+        if (levelNext > level) LvUp();
 
         transform.Rotate(Vector3.back * speed * Time.deltaTime);
 
@@ -57,8 +64,16 @@ public class Weapon0 : MonoBehaviour
         {
             level++;
         }
-        ReLoadLevel();
+        Init(bulletDatas[level]);
 
+    }
+
+    public void Init(BulletData data)
+    {
+        speed = data.speed;
+        power = data.power;
+        count = data.count;
+        ReLoadLevel();
     }
 
     void ReLoadLevel()
@@ -69,39 +84,6 @@ public class Weapon0 : MonoBehaviour
             bullet.SetActive(false);
         }
         bullets.Clear();
-
-        /*
-        switch (level)
-        {
-            case 0:
-                { }
-                break;
-            case 1:
-                {
-                    var obj = GameManager.instance.pool.Get(1);
-                    bullets.Add(obj);
-                }
-                break;
-            case 2:
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        var obj = GameManager.instance.pool.Get(1);
-                        bullets.Add(obj);
-                    }
-                }
-                break;
-            case 3:
-                {
-                    for (int i = 0; i < 6; i++)
-                    {
-                        var obj = GameManager.instance.pool.Get(1);
-                        bullets.Add(obj);
-                    }
-                }
-                break;
-        }
-        */
 
         for (int i = 0; i < count; i++)
         {
@@ -120,18 +102,10 @@ public class Weapon0 : MonoBehaviour
             bullet.transform.Rotate(Vector3.forward * r * i);
             bullet.transform.Translate(bullet.transform.up * 1.5f, Space.World);
 
-            bullet.GetComponent<Bullet>().power = power;
+            bullet.GetComponent<Bullet>().Init(power);
 
         }
 
-    }
-
-    public void Init(BulletData data)
-    {
-        speed = data.speed;
-        power = data.power;
-        count = data.count;
-        ReLoadLevel();
     }
 
 }

@@ -6,6 +6,15 @@ public class Bullet : MonoBehaviour
 {
     public int power;
 
+    private SpriteRenderer sprite;
+
+    void Awake()
+    {
+
+        sprite = GetComponent<SpriteRenderer>();
+
+    }
+
     // Start is called before the first frame update
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,4 +24,14 @@ public class Bullet : MonoBehaviour
         collision.GetComponent<Enemy>().damage(power);
 
     }
+
+    public void Init(int p)
+    {
+
+        power = p;
+
+        sprite.transform.localScale = new Vector2(.25f, .25f) * (float)(power / 3) + Vector2.one;
+
+    }
+
 }

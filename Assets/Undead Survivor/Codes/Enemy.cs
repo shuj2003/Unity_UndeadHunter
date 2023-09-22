@@ -74,10 +74,8 @@ public class Enemy : MonoBehaviour
         speed = data.speed;
         animator.runtimeAnimatorController = aniCons[data.prefabID];
 
-        if(hpMax > 2)
-        {
-            sprite.transform.localScale = new Vector2(1.5f, 1.5f);
-        }
+        
+        sprite.transform.localScale = new Vector2(.25f, .25f) * (float)(hpMax / 2) + Vector2.one;
 
     }
 
