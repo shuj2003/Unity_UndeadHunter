@@ -62,12 +62,12 @@ public class Enemy : MonoBehaviour
     {
 
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
-        isLive = true;
 
     }
 
     public void Init(StageLevelData data)
     {
+        isLive = true;
 
         hpMax = data.hp;
         hp = hpMax;
@@ -79,6 +79,16 @@ public class Enemy : MonoBehaviour
             sprite.transform.localScale = new Vector2(1.5f, 1.5f);
         }
 
+    }
+
+    public void damage(int d)
+    {
+        hp -= d;
+        if(hp <= 0)
+        {
+            isLive = false;
+            gameObject.SetActive(false);
+        }
     }
 
 }

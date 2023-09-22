@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] VariableJoystick variableJoystick;
     public Vector2 inputVec;
-    public float speed;
+    private float speed;
 
     private Rigidbody2D rigid;
     private SpriteRenderer sprite;

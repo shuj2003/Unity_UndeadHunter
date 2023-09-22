@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public StageLevelData[] levelDatas;
 
     float gameTime;
-    float levelUpTime = 10f;
+    float levelUpTime = 15f;
     float maxGameTime;
 
     float timer;

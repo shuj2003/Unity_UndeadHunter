@@ -156,16 +156,16 @@ MonoBehaviour:
   player: {fileID: 616656422}
   levelDatas:
   - prefabID: 0
-    createTime: 0.8
+    createTime: 1
     hp: 1
     speed: 1
   - prefabID: 1
-    createTime: 0.4
+    createTime: 0.5
     hp: 2
     speed: 1.5
   - prefabID: 1
-    createTime: 0.4
-    hp: 3
+    createTime: 0.5
+    hp: 4
     speed: 2
 --- !u!4 &17985484
 Transform:
@@ -13640,6 +13640,7 @@ Transform:
   m_Children:
   - {fileID: 1381415756}
   - {fileID: 691437036}
+  - {fileID: 1343443065}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &616656421
@@ -13691,7 +13692,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variableJoystick: {fileID: 356528458}
   inputVec: {x: 0, y: 0}
-  speed: 0
 --- !u!95 &616656423
 Animator:
   serializedVersion: 5
@@ -13744,6 +13744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 1640075609257181860, guid: 4c1a950bbbb1f2b478d3ef8a7bbde9a2, type: 3}
+  - {fileID: 5090635872198720805, guid: 0472dfd9aa6c66245a3bbeac428c42ba, type: 3}
 --- !u!4 &628202657
 Transform:
   m_ObjectHideFlags: 0
@@ -18174,6 +18175,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b28cb6f763c64a76a0377e250929238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1343443064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1343443065}
+  - component: {fileID: 1343443066}
+  m_Layer: 0
+  m_Name: Weapon0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1343443065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343443064}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 616656420}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1343443066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343443064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4df20792dc778646adfb35c1f19fbef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    speed: 0
+    power: 0
+    count: 0
 --- !u!1 &1381415755
 GameObject:
   m_ObjectHideFlags: 0
