@@ -14,7 +14,9 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rigid;
     private SpriteRenderer sprite;
     private Animator animator;
+    private Collider2D coll;
 
+    private WaitForFixedUpdate wait;
     private bool isLive;
 
     // Start is called before the first frame update
@@ -24,7 +26,9 @@ public class Enemy : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        coll = GetComponent<Collider2D>();
 
+        wait = new WaitForFixedUpdate();
     }
 
     // Update is called once per frame
@@ -47,7 +51,7 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (!isLive)
+        if (!isLive || animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
         {
             return;
         }
@@ -63,11 +67,17 @@ public class Enemy : MonoBehaviour
 
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
 
+        isLive = true;
+        coll.enabled = true;
+        rigid.simulated = true;
+        sprite.sortingOrder = 2;
+        animator.SetBool("Dead", false);
+        hp = hpMax;
+
     }
 
     public void Init(StageLevelData data)
     {
-        isLive = true;
 
         hpMax = data.hp;
         hp = hpMax;
@@ -82,11 +92,36 @@ public class Enemy : MonoBehaviour
     public void damage(int d)
     {
         hp -= d;
+        StartCoroutine(KnockBack());
+
         if(hp <= 0)
         {
             isLive = false;
-            gameObject.SetActive(false);
+            coll.enabled = false;
+            rigid.simulated = false;
+            sprite.sortingOrder = 1;
+            animator.SetBool("Dead", true);
+            GameManager.instance.Kill++;
+            GameManager.instance.getExp();
         }
+        else
+        {
+            animator.SetTrigger("Hit");
+        }
+    }
+
+    IEnumerator KnockBack()
+    {
+        yield return wait;
+        Vector3 playerPos = GameManager.instance.player.transform.position;
+        Vector3 dir = transform.position - playerPos;
+        rigid.AddForce(dir.normalized * 3, ForceMode2D.Impulse);
+
+    }
+
+    private void Dead()
+    {
+        gameObject.SetActive(false);
     }
 
 }

@@ -5,21 +5,26 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    
+    public StageLevelData[] levelDatas;
+    [Header(" # Game Control ")]
+    public float gameTime;
+    public float maxGameTime;
+    [Header(" # Player Info ")]
+    public int Level;
+    public int Kill;
+    public int Exp;
+    public int[] NextExp = {5, 15, 30, };
+    [Header(" # Game Object ")]
     public PoolManager pool;
     public Player player;
-    public StageLevelData[] levelDatas;
-
-    float gameTime;
-    float levelUpTime = 15f;
-    float maxGameTime;
 
     float timer;
-    int level;
 
     private void Awake()
     {
         instance = this;
-        maxGameTime = levelDatas.Length * levelUpTime - 1f;
+        maxGameTime = levelDatas.Length * 15f - 1f;
     }
 
     private void Update()
@@ -32,14 +37,12 @@ public class GameManager : MonoBehaviour
             gameTime = maxGameTime;
         }
 
-        level = Mathf.FloorToInt(gameTime / levelUpTime);
-
         timer += Time.deltaTime;
 
-        if (timer > levelDatas[level].createTime)
+        if (timer > levelDatas[Level].createTime)
         {
             timer = 0;
-            createEmpty(levelDatas[level]);
+            createEmpty(levelDatas[Level]);
         }
 
     }
@@ -92,6 +95,19 @@ public class GameManager : MonoBehaviour
                 break;
         }
         enemy.transform.position = pos;
+
+    }
+
+    public void getExp()
+    {
+
+        Exp++;
+
+        if(Level < NextExp.Length && Exp >= NextExp[Level])
+        {
+            Exp = 0;
+            Level++;
+        }
 
     }
 

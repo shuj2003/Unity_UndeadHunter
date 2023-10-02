@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] VariableJoystick variableJoystick;
     public Vector2 inputVec;
+    public Scanner scanner;
     private float speed;
 
     private Rigidbody2D rigid;
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        scanner = GetComponent<Scanner>();
         speed = 3;
     }
 
