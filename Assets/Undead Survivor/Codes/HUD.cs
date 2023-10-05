@@ -44,12 +44,18 @@ public class HUD : MonoBehaviour
                 }
                 break;
             case HUD_TYPE.Level:
+                text.text = "Lv." + GameManager.instance.Level.ToString();
                 break;
             case HUD_TYPE.Kill:
+                text.text = GameManager.instance.Kill.ToString();
                 break;
             case HUD_TYPE.Time:
+                text.text = string.Format("{0:D2}:{1:D2}", (int)GameManager.instance.gameTime / 60 , (int)GameManager.instance.gameTime % 60);
                 break;
             case HUD_TYPE.Health:
+                float health = (float)GameManager.instance.player.health;
+                float healthMax = (float)GameManager.instance.player.healthMax;
+                slider.value = health / healthMax;
                 break;
         }
 

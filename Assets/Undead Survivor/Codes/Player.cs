@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public Vector2 inputVec;
     public Scanner scanner;
     private float speed;
+    public int health;
+    public int healthMax;
 
     private Rigidbody2D rigid;
     private SpriteRenderer sprite;
@@ -26,6 +28,9 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         scanner = GetComponent<Scanner>();
         speed = 3;
+
+        healthMax = 100;
+        health = healthMax;
     }
 
     // 毎フレーム呼ばれる基本処理を書くところ
