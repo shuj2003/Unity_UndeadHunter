@@ -20,6 +20,14 @@ public class Enemy : MonoBehaviour
     private bool isLive;
 
     // Start is called before the first frame update
+    //Awake()が呼び出された後に、Start()が呼び出されます。
+    //GetComponent系や自身のクラス内での初期化をAwake()でしておいて、
+    //他のクラスを呼び出す処理などはStart()に記述すれば、呼び出し先のクラスでまだ初期化できてない！みたいなことがなくなると思います。
+    //どのクラスのAwake()が呼び出されるかという順番は一定ではないので、Awake()内に他のクラスを利用する処理を書いてしまうとうまくいかないことが多々あるので注意。
+    //OnEnable()が呼び出されるタイミングですが、Unityの公式マニュアルによると「Awake()と同じタイミング」だそうです。
+    //アクティブ化した時に実行したい処理がある場合はOnEnable()
+    //イベント関数の実行順：https://docs.unity3d.com/jp/530/Manual/ExecutionOrder.html
+
     void Awake()
     {
 
@@ -28,6 +36,7 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
 
+        //次のFixedUpdateが発生するまでの時間
         wait = new WaitForFixedUpdate();
     }
 
@@ -98,6 +107,7 @@ public class Enemy : MonoBehaviour
         {
             isLive = false;
             coll.enabled = false;
+            //Simulatedは物理演算と当たり判定をOFFにする
             rigid.simulated = false;
             sprite.sortingOrder = 1;
             animator.SetBool("Dead", true);
@@ -113,6 +123,7 @@ public class Enemy : MonoBehaviour
     IEnumerator KnockBack()
     {
         yield return wait;
+        //waitの秒数分を待ってくれます、その後下の処理を実行します
         Vector3 playerPos = GameManager.instance.player.transform.position;
         Vector3 dir = transform.position - playerPos;
         rigid.AddForce(dir.normalized * 3, ForceMode2D.Impulse);
