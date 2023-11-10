@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,43 +9,96 @@ public class GameManager : MonoBehaviour
     
     public StageLevelData[] levelDatas;
     [Header(" # Game Control ")]
+    public bool isLive;
     public float gameTime;
     public float maxGameTime;
     [Header(" # Player Info ")]
     public int Level;
     public int Kill;
     public int Exp;
-    public int[] NextExp = {5, 15, 30, };
+    public int[] NextExp;
     [Header(" # Game Object ")]
     public PoolManager pool;
     public Player player;
+    public LevelUp uiLevelUp;
+    public Result uiResult;
+    public GameObject gameCleaner;
 
     float timer;
 
     private void Awake()
     {
         instance = this;
-        maxGameTime = levelDatas.Length * 15f - 1f;
+        maxGameTime = 10f;
+        gameTime = maxGameTime;
     }
 
     private void Update()
     {
+        if (!isLive) return;
 
-        gameTime += Time.deltaTime;
+        gameTime -= Time.deltaTime;
 
-        if (gameTime > maxGameTime)
+        if (gameTime <= 0)
         {
-            gameTime = maxGameTime;
+            gameTime = 0;
+            GameWin();
         }
 
         timer += Time.deltaTime;
 
-        if (timer > levelDatas[Level].createTime)
+        if (timer > levelDatas[Mathf.Min(Level, levelDatas.Length - 1)].createTime)
         {
             timer = 0;
-            createEmpty(levelDatas[Level]);
+            createEmpty(levelDatas[Mathf.Min(Level, levelDatas.Length - 1)]);
         }
 
+    }
+
+    public void GameStart()
+    {
+        isLive = true;
+        uiLevelUp.Select(0);
+      
+    }
+
+    public void GameOver()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
+
+    IEnumerator GameOverRoutine()
+    {
+        isLive = false;
+
+        yield return new WaitForSeconds(0.5f);
+
+        uiResult.gameObject.SetActive(true);
+        uiResult.Lose();
+        Stop();
+
+    }
+
+    public void GameWin()
+    {
+        StartCoroutine(GameWinRoutine());
+    }
+
+    IEnumerator GameWinRoutine()
+    {
+        isLive = false;
+        gameCleaner.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+
+        uiResult.gameObject.SetActive(true);
+        uiResult.Win();
+        Stop();
+    }
+
+    public void GameRetry()
+    {
+        SceneManager.LoadScene(0);
     }
 
     void createEmpty(StageLevelData data)
@@ -100,15 +154,29 @@ public class GameManager : MonoBehaviour
 
     public void getExp()
     {
+        if (!isLive) return;
 
         Exp++;
 
-        if(Level < NextExp.Length && Exp >= NextExp[Level])
+        if(Exp >= NextExp[Mathf.Min(Level, NextExp.Length - 1)])
         {
             Exp = 0;
             Level++;
+            uiLevelUp.Show();
         }
 
+    }
+
+    public void Stop()
+    {
+        isLive = false;
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        isLive = true;
+        Time.timeScale = 1;
     }
 
 }

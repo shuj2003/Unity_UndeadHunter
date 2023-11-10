@@ -43,13 +43,14 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!GameManager.instance.isLive) return;
     }
 
     void LateUpdate()
     {
+        if (!GameManager.instance.isLive) return;
 
-        if(!isLive)
+        if (!isLive)
         {
             return;
         }
@@ -59,6 +60,7 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!GameManager.instance.isLive) return;
 
         if (!isLive || animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
         {
@@ -94,12 +96,14 @@ public class Enemy : MonoBehaviour
         animator.runtimeAnimatorController = aniCons[data.prefabID];
 
         
-        sprite.transform.localScale = new Vector2(.25f, .25f) * (float)(hpMax / 2) + Vector2.one;
+        sprite.transform.localScale = new Vector2(.15f, .15f) * (float)(hpMax / 2) + Vector2.one;
 
     }
 
     public void damage(int d)
     {
+        if (!GameManager.instance.isLive) return;
+
         hp -= d;
         StartCoroutine(KnockBack());
 

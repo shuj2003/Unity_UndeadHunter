@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBall : MonoBehaviour
+public class Bullet02 : MonoBehaviour
 {
     public int power;
     public int hitCount;
@@ -46,12 +46,12 @@ public class FireBall : MonoBehaviour
 
     }
 
-    public void Init(FireBallData data, Vector2 dir)
+    public void Init(int p, int c, Vector2 dir)
     {
 
-        power = data.power;
-        hitCount = data.hitCount;
-        speed =  data.speed;
+        power = p;
+        hitCount = c;
+        speed = 10f;
         rigid.velocity = dir * speed;
 
         //sprite.transform.localScale = new Vector2(.25f, .25f) * (float)(power / 3) + Vector2.one;

@@ -31,16 +31,9 @@ public class HUD : MonoBehaviour
         {
             case HUD_TYPE.Exp:
                 {
-                    if(GameManager.instance.Level >= GameManager.instance.NextExp.Length)
-                    {
-                        slider.value = 1f;
-                    }
-                    else
-                    {
-                        float exp = (float)GameManager.instance.Exp;
-                        float expMax = (float)GameManager.instance.NextExp[GameManager.instance.Level];
-                        slider.value = exp / expMax;
-                    }
+                    float exp = (float)GameManager.instance.Exp;
+                    float expMax = (float)GameManager.instance.NextExp[Mathf.Min(GameManager.instance.Level, GameManager.instance.NextExp.Length - 1)];
+                    slider.value = exp / expMax;
                 }
                 break;
             case HUD_TYPE.Level:
