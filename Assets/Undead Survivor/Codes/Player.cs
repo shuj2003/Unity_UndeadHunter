@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag != "Enemy") return;
 
-        health -= Time.deltaTime * 10f;
+        health -= Time.deltaTime * 20f;
 
         if(health < 0)
         {

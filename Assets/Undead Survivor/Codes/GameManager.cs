@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        maxGameTime = 10f;
+        maxGameTime = 90f;
         gameTime = maxGameTime;
     }
 
