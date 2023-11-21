@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
     public void GameRetry()
     {
         SceneManager.LoadScene(0);
+        Resume();
     }
 
     void createEmpty(StageLevelData data)
