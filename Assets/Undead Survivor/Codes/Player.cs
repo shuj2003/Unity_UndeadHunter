@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public float health;
     public float healthMax;
     public Hand[] hands;
+    public RuntimeAnimatorController[] animCon;
 
     private Rigidbody2D rigid;
     private SpriteRenderer sprite;
@@ -36,6 +37,12 @@ public class Player : MonoBehaviour
 
         healthMax = 100;
         health = healthMax;
+    }
+
+    private void OnEnable()
+    {
+        speed = 3f * Character.Speed;
+        anim.runtimeAnimatorController = animCon[GameManager.instance.playerID];
     }
 
     // 毎フレーム呼ばれる基本処理を書くところ

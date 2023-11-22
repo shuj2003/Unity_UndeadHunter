@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     List<GameObject> bullets;
     public int id;
     public int prefabId;
-    public int power;
+    public float power;
     public int count;
     public float speed;
     float timer;
@@ -22,8 +22,8 @@ public class Weapon : MonoBehaviour
         transform.parent = GameManager.instance.player.transform;
         transform.localPosition = Vector3.zero;
 
-        power = data.basePower;
-        count = data.baseCount;
+        power = data.basePower * Character.Damage;
+        count = data.baseCount + Character.Count;
 
         id = data.itemId;
 
@@ -41,14 +41,14 @@ public class Weapon : MonoBehaviour
         {
             case 0:
                 {
-                    speed = 100f;
+                    speed = 100f * Character.WeaponSpeed;
                     if (bullets == null) bullets = new List<GameObject>();
                     createBullet01();
                 }
                 break;
             case 1:
                 {
-                    speed = 1f;
+                    speed = 1f * Character.WeaponRate;
                 }
                 break;
         }
@@ -61,10 +61,10 @@ public class Weapon : MonoBehaviour
         
     }
 
-    public void LevelUp(int power, int count)
+    public void LevelUp(float power, int count)
     {
-        this.power = power;
-        this.count = count;
+        this.power = power * Character.Damage;
+        this.count = count + Character.Count;
 
         switch (id)
         {

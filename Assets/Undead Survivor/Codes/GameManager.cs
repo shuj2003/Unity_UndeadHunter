@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public float gameTime;
     public float maxGameTime;
     [Header(" # Player Info ")]
+    public int playerID;
     public int Level;
     public int Kill;
     public int Exp;
@@ -30,18 +31,18 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         maxGameTime = 90f;
-        gameTime = maxGameTime;
+        gameTime = 0f;
     }
 
     private void Update()
     {
         if (!isLive) return;
 
-        gameTime -= Time.deltaTime;
+        gameTime += Time.deltaTime;
 
-        if (gameTime <= 0)
+        if (gameTime >= maxGameTime)
         {
-            gameTime = 0;
+            gameTime = maxGameTime;
             GameWin();
         }
 
@@ -55,11 +56,15 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void GameStart()
+    public void GameStart(int id)
     {
+        playerID = id;
         isLive = true;
-        uiLevelUp.Select(0);
-      
+
+        player.gameObject.SetActive(true);
+        uiLevelUp.Select(playerID % 2);
+        Resume();
+
     }
 
     public void GameOver()
@@ -99,7 +104,6 @@ public class GameManager : MonoBehaviour
     public void GameRetry()
     {
         SceneManager.LoadScene(0);
-        Resume();
     }
 
     void createEmpty(StageLevelData data)
@@ -188,7 +192,7 @@ public class StageLevelData
 
     public int prefabID;
     public float createTime;
-    public int hp;
+    public float hp;
     public float speed;
 
 }

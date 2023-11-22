@@ -17,9 +17,9 @@ public class ItemData : ScriptableObject
     public Sprite itemIcon;
 
     [Header("# Level Info ")]
-    public int basePower;
+    public float basePower;
     public int baseCount;
-    public int[] powers;
+    public float[] powers;
     public int[] counts;
 
     [Header("# Weapon ")]

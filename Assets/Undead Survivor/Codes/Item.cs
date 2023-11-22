@@ -46,7 +46,7 @@ public class Item : MonoBehaviour
                     }
                     else
                     {
-                        int nextPower = data.basePower + data.powers[level - 1];
+                        float nextPower = data.basePower + data.powers[level - 1];
                         int nextCount = data.baseCount + data.counts[level - 1];
 
                         textDesc.text = string.Format(data.itemDesc, nextPower, nextCount);
@@ -63,7 +63,7 @@ public class Item : MonoBehaviour
                     }
                     else
                     {
-                        int nextPower = data.basePower + data.powers[level - 1];
+                        float nextPower = data.basePower + data.powers[level - 1];
 
                         textDesc.text = string.Format(data.itemDesc, nextPower);
                     }
@@ -72,6 +72,7 @@ public class Item : MonoBehaviour
                 break;
             case ItemData.ItemType.Heal:
                 {
+                    textLevel.text = "";
                     textDesc.text = data.itemDesc;
                 }
                 break;
@@ -111,7 +112,7 @@ public class Item : MonoBehaviour
                     }
                     else
                     {
-                        int nextPower = data.basePower + data.powers[level - 1];
+                        float nextPower = data.basePower + data.powers[level - 1];
                         int nextCount = data.baseCount + data.counts[level - 1];
 
                         weapon.LevelUp(nextPower, nextCount);
@@ -130,7 +131,7 @@ public class Item : MonoBehaviour
                     }
                     else
                     {
-                        int nextPower = data.basePower + data.powers[level - 1];
+                        float nextPower = data.basePower + data.powers[level - 1];
 
                         gear.LevelUp(nextPower);
                     }
@@ -138,6 +139,8 @@ public class Item : MonoBehaviour
                 break;
             case ItemData.ItemType.Heal:
                 {
+                    GameManager.instance.player.health += GameManager.instance.player.healthMax * 0.1f;
+                    GameManager.instance.player.health = GameManager.instance.player.health > GameManager.instance.player.healthMax ? GameManager.instance.player.healthMax : GameManager.instance.player.health;
                 }
                 break;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet02 : MonoBehaviour
 {
-    public int power;
+    public float power;
     public int hitCount;
     public float speed;
 
@@ -46,7 +46,7 @@ public class Bullet02 : MonoBehaviour
 
     }
 
-    public void Init(int p, int c, Vector2 dir)
+    public void Init(float p, int c, Vector2 dir)
     {
 
         power = p;

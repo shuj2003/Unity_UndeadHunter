@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet01 : MonoBehaviour
 {
-    public int power;
+    public float power;
 
     private SpriteRenderer sprite;
 
@@ -25,12 +25,12 @@ public class Bullet01 : MonoBehaviour
 
     }
 
-    public void Init(int p)
+    public void Init(float p)
     {
 
         power = p;
 
-        sprite.transform.localScale = new Vector2(.25f, .25f) * (float)(power / 3) + Vector2.one;
+        sprite.transform.localScale = new Vector2(.25f, .25f) * (power / 3f) + Vector2.one;
 
     }
 

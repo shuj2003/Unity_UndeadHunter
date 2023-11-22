@@ -43,7 +43,8 @@ public class HUD : MonoBehaviour
                 text.text = GameManager.instance.Kill.ToString();
                 break;
             case HUD_TYPE.Time:
-                text.text = string.Format("{0:D2}:{1:D2}", (int)GameManager.instance.gameTime / 60 , (int)GameManager.instance.gameTime % 60);
+                int time = (int)(GameManager.instance.maxGameTime - GameManager.instance.gameTime);
+                text.text = string.Format("{0:D2}:{1:D2}", time / 60 , time % 60);
                 break;
             case HUD_TYPE.Health:
                 float health = (float)GameManager.instance.player.health;

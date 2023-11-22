@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gear : MonoBehaviour
 {
     public ItemData.ItemType type;
-    public int rate;
+    public float rate;
 
     public void Init(ItemData data)
     {
@@ -19,7 +19,7 @@ public class Gear : MonoBehaviour
         ApplyGear();
 
     }
-    public void LevelUp(int rate)
+    public void LevelUp(float rate)
     {
         this.rate = rate;
         ApplyGear();
@@ -48,12 +48,12 @@ public class Gear : MonoBehaviour
             {
                 case 0:
                     {
-                        weapon.speed = (float)rate / 100f * 100f;
+                        weapon.speed = rate / 100f * (100f * Character.WeaponSpeed);
                     }
                     break;
                 case 1:
                     {
-                        weapon.speed = 1f - (float)rate / 100f * 0.25f;
+                        weapon.speed = (1f * Character.WeaponRate) - rate / 100f * 0.25f;
                     }
                     break;
             }
@@ -64,7 +64,7 @@ public class Gear : MonoBehaviour
     void SpeedUp()
     {
 
-        float speed = 3f;
+        float speed = 3f * Character.Speed;
         GameManager.instance.player.speed = (float)rate / 100f * speed;
 
     }

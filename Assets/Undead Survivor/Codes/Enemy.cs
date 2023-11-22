@@ -7,8 +7,8 @@ public class Enemy : MonoBehaviour
 
     public Rigidbody2D target;
     public float speed;
-    public int hp;
-    public int hpMax;
+    public float hp;
+    public float hpMax;
     public RuntimeAnimatorController[] aniCons;
 
     private Rigidbody2D rigid;
@@ -100,10 +100,8 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void damage(int d)
+    public void damage(float d)
     {
-        if (!GameManager.instance.isLive) return;
-
         hp -= d;
         StartCoroutine(KnockBack());
 

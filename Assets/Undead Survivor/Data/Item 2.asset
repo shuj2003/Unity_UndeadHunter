@@ -19,7 +19,12 @@ MonoBehaviour:
   itemIcon: {fileID: -201829820, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   basePower: 130
   baseCount: 0
-  powers: 1e0000003c0000005a00000078000000aa000000
+  powers:
+  - 30
+  - 60
+  - 90
+  - 130
+  - 170
   counts: 0000000000000000000000000000000000000000
   projectile: {fileID: 0}
   hand: {fileID: 0}
