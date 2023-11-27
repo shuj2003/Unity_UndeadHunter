@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     
     public StageLevelData[] levelDatas;
+    List<StageLevelData> enemyDatas;
+    List<float> timers;
     [Header(" # Game Control ")]
     public bool isLive;
     public float gameTime;
@@ -24,14 +26,22 @@ public class GameManager : MonoBehaviour
     public LevelUp uiLevelUp;
     public Result uiResult;
     public GameObject gameCleaner;
+    public int gameLevel;
 
-    float timer;
+    float levelTime;
 
     private void Awake()
     {
         instance = this;
-        maxGameTime = 90f;
+        maxGameTime = 180f;
         gameTime = 0f;
+        levelTime = maxGameTime / (float)levelDatas.Length;
+
+        enemyDatas = new List<StageLevelData>();
+        enemyDatas.Add(levelDatas[0]);
+        timers = new List<float>();
+        timers.Add(0f);
+
     }
 
     private void Update()
@@ -39,6 +49,30 @@ public class GameManager : MonoBehaviour
         if (!isLive) return;
 
         gameTime += Time.deltaTime;
+        int nextGameLevel = (int)(gameTime / levelTime);
+        if (nextGameLevel > gameLevel)
+        {
+            gameLevel = nextGameLevel;
+            StageLevelData nextData = levelDatas[Mathf.Min(gameLevel, levelDatas.Length - 1)];
+
+            bool needAdd = true;
+            for (int i = 0; i < enemyDatas.Count; i++)
+            {
+                StageLevelData enemyData = enemyDatas[i];
+                if (enemyData.prefabID == nextData.prefabID)
+                {
+                    enemyDatas[i] = nextData;
+                    needAdd = false;
+                    break;
+                }
+            }
+            if (needAdd)
+            {
+                enemyDatas.Add(nextData);
+                timers.Add(0f);
+            }
+
+        }
 
         if (gameTime >= maxGameTime)
         {
@@ -46,12 +80,23 @@ public class GameManager : MonoBehaviour
             GameWin();
         }
 
-        timer += Time.deltaTime;
-
-        if (timer > levelDatas[Mathf.Min(Level, levelDatas.Length - 1)].createTime)
+        for(int i = 0; i < timers.Count ; i++)
         {
-            timer = 0;
-            createEmpty(levelDatas[Mathf.Min(Level, levelDatas.Length - 1)]);
+            float timer = timers[i];
+            timer += Time.deltaTime;
+            timers[i] = timer;
+        }
+
+        for (int i = 0; i < enemyDatas.Count; i++)
+        {
+            StageLevelData enemyData = enemyDatas[i];
+            float timer = timers[i];
+            if (timer > enemyData.createTime)
+            {
+                timer = 0;
+                timers[i] = timer;
+                createEmpty(enemyData);
+            }
         }
 
     }
@@ -65,6 +110,14 @@ public class GameManager : MonoBehaviour
         uiLevelUp.Select(playerID % 2);
         Resume();
 
+        AudioManager.instance.PlayBgm(true);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+
+    }
+
+    public void GameQuite()
+    {
+        Application.Quit();
     }
 
     public void GameOver()
@@ -82,6 +135,8 @@ public class GameManager : MonoBehaviour
         uiResult.Lose();
         Stop();
 
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
     }
 
     public void GameWin()
@@ -99,6 +154,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Win();
         Stop();
+
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
     }
 
     public void GameRetry()

@@ -152,6 +152,8 @@ public class Weapon : MonoBehaviour
         Vector2 normal = (target.position - obj.transform.position).normalized;
         obj.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal);
         obj.GetComponent<Bullet02>().Init(power, count, normal);
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Range);
     }
 
 }

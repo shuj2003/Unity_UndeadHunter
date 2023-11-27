@@ -54,7 +54,7 @@ public class Bullet02 : MonoBehaviour
         speed = 10f;
         rigid.velocity = dir * speed;
 
-        //sprite.transform.localScale = new Vector2(.25f, .25f) * (float)(power / 3) + Vector2.one;
+        sprite.transform.localScale = new Vector2(.25f, .25f) * (power / 3f) + Vector2.one;
 
     }
 }

@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public float hp;
     public float hpMax;
     public RuntimeAnimatorController[] aniCons;
+    public int prefabID;
 
     private Rigidbody2D rigid;
     private SpriteRenderer sprite;
@@ -93,17 +94,25 @@ public class Enemy : MonoBehaviour
         hpMax = data.hp;
         hp = hpMax;
         speed = data.speed;
+        prefabID = data.prefabID;
         animator.runtimeAnimatorController = aniCons[data.prefabID];
+        if(prefabID == 3)
+        {
+            rigid.mass = 800;
+        }
 
         
-        sprite.transform.localScale = new Vector2(.15f, .15f) * (float)(hpMax / 2) + Vector2.one;
+        //sprite.transform.localScale = new Vector2(.15f, .15f) * (float)(hpMax / 4f) + Vector2.one;
 
     }
 
     public void damage(float d)
     {
         hp -= d;
-        StartCoroutine(KnockBack());
+        if (prefabID != 3)
+        {
+            StartCoroutine(KnockBack());
+        }
 
         if(hp <= 0)
         {
@@ -115,10 +124,14 @@ public class Enemy : MonoBehaviour
             animator.SetBool("Dead", true);
             GameManager.instance.Kill++;
             GameManager.instance.getExp();
+
+            if(GameManager.instance.isLive)
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
         }
         else
         {
             animator.SetTrigger("Hit");
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit);
         }
     }
 

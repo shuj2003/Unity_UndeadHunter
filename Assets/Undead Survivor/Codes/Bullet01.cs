@@ -30,7 +30,7 @@ public class Bullet01 : MonoBehaviour
 
         power = p;
 
-        sprite.transform.localScale = new Vector2(.25f, .25f) * (power / 3f) + Vector2.one;
+        sprite.transform.localScale = new Vector2(.25f, .25f) * (power / 4f) + Vector2.one;
 
     }
 

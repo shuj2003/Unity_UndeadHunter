@@ -68,7 +68,7 @@ public class AchiveManager : MonoBehaviour
         switch (achive)
         {
             case Achive.UnlockBoss:
-                isAchive = GameManager.instance.Kill >= 30;
+                isAchive = GameManager.instance.Kill >= 200;
                 break;
 
             case Achive.UnlockMother:
@@ -94,6 +94,8 @@ public class AchiveManager : MonoBehaviour
     IEnumerator NoticeRoutine()
     {
         notice.SetActive(true);
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp);
 
         yield return wait;
 
